@@ -1,0 +1,59 @@
+name: Internship JARVIS Daily Run
+
+on:
+  # Manual trigger from GitHub Actions UI (Test your setup with 1 click)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Run in Dry-Run mode without sending email'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+  # SCHEDULED TRIGGER (9:00 PM Indian Standard Time / 15:30 UTC)
+  # IMPORTANT: As instructed, the schedule is initially kept commented out
+  # until you add your GitHub Secrets and test the workflow via "Run workflow" above.
+  # Once tested successfully, uncomment the 2 lines below to enable daily 9 PM IST reports!
+  # schedule:
+  #   - cron: '30 15 * * *'
+
+jobs:
+  run-internship-jarvis:
+    name: Find & Email Matching Internships
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Internship JARVIS Pipeline
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+          MIN_MATCH_SCORE: '40'
+        run: |
+          python -m src.main
+
+      - name: Upload HTML Report Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-internship-report
+          path: reports/latest_report.html
+          retention-days: 7
