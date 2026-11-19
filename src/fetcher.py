@@ -142,14 +142,15 @@ def detect_stipend_and_type(text: str) -> Dict[str, Any]:
 
     if is_research:
         return {
-            "stipend": "Research Grant / Academic",
+            "stipend": "Research Fellowship / Academic Grant",
             "is_paid": False,
             "is_research": True,
         }
 
+    # Commercial corporate tech internships are standard paid roles
     return {
-        "stipend": "Undisclosed / Competitive",
-        "is_paid": False,
+        "stipend": "Competitive Tech Stipend / Disclosed Upon Offer",
+        "is_paid": True,
         "is_research": False,
     }
 

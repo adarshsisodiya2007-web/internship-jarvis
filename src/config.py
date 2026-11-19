@@ -135,7 +135,7 @@ DRY_RUN = os.getenv("DRY_RUN", "").lower() in ("true", "1", "yes") or not (GMAIL
 
 # Match scoring thresholds
 MIN_MATCH_SCORE = int(os.getenv("MIN_MATCH_SCORE", "40"))
-MAX_RESULTS_PER_SECTION = int(os.getenv("MAX_RESULTS_PER_SECTION", "10"))
+MAX_RESULTS_PER_SECTION = int(os.getenv("MAX_RESULTS_PER_SECTION", "30"))
 
 # Storage paths
 DATA_DIR = BASE_DIR / "data"

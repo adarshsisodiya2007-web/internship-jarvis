@@ -1,17 +1,18 @@
 """Web Dashboard application for Internship JARVIS.
 
 Provides a clean, responsive web interface displaying verified matches, KPI stats,
-and opportunity details without exposing sensitive credentials or logs.
+skills gap analysis, and opportunity details without exposing sensitive credentials or logs.
 Includes /health check endpoint for Render and debounced on-demand refresh.
 """
 
+from collections import Counter
 import json
 import logging
 import os
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 import requests
 from flask import Flask, jsonify, render_template, request
@@ -45,6 +46,60 @@ GITHUB_RAW_DATA_URL = (
 )
 
 
+def enrich_dashboard_data(data: Dict[str, Any]) -> Dict[str, Any]:
+    """Calculate derived metrics: skills gap frequency, mode breakdown, and clean timestamps."""
+    categorized = data.get("categorized_jobs", {})
+    all_jobs: List[Dict[str, Any]] = []
+    for job_list in categorized.values():
+        all_jobs.extend(job_list)
+
+    # Compute missing skills frequency
+    missing_skill_counter = Counter()
+    remote_count = 0
+    high_match_count = 0
+
+    for job in all_jobs:
+        # Count missing skills
+        for s in job.get("missing_skills", []):
+            if s:
+                missing_skill_counter[s] += 1
+
+        # Count remote jobs
+        loc = (job.get("location") or "").lower()
+        if "remote" in loc:
+            remote_count += 1
+
+        # High match score (>=80%)
+        if job.get("match_score", 0) >= 80:
+            high_match_count += 1
+
+        # Clean formatted date
+        dp = job.get("date_posted")
+        if isinstance(dp, (int, float)) and dp > 1000000:
+            try:
+                job["formatted_date"] = datetime.fromtimestamp(dp, tz=timezone.utc).strftime("%d %b %Y")
+            except Exception:
+                job["formatted_date"] = "Recent"
+        elif isinstance(dp, str) and dp.strip():
+            job["formatted_date"] = dp[:16]
+        else:
+            job["formatted_date"] = "Active"
+
+    top_missing_skills = [
+        {"skill": skill, "count": count}
+        for skill, count in missing_skill_counter.most_common(12)
+    ]
+
+    data["derived"] = {
+        "top_missing_skills": top_missing_skills,
+        "remote_count": remote_count,
+        "high_match_count": high_match_count,
+        "total_active_listings": len(all_jobs),
+    }
+
+    return data
+
+
 def load_dashboard_data() -> Dict[str, Any]:
     """Load latest match snapshot from local disk, GitHub raw sync, or in-memory fallback."""
     global _in_memory_data
@@ -55,8 +110,8 @@ def load_dashboard_data() -> Dict[str, Any]:
             with open(LATEST_MATCHES_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)
                 if data and "categorized_jobs" in data:
-                    _in_memory_data = data
-                    return data
+                    _in_memory_data = enrich_dashboard_data(data)
+                    return _in_memory_data
         except Exception as e:
             logger.warning("Could not read local matches file: %s", e)
 
@@ -70,20 +125,19 @@ def load_dashboard_data() -> Dict[str, Any]:
         if resp.status_code == 200:
             data = resp.json()
             if data and "categorized_jobs" in data:
-                _in_memory_data = data
-                # Cache locally if possible
+                _in_memory_data = enrich_dashboard_data(data)
                 try:
                     with open(LATEST_MATCHES_FILE, "w", encoding="utf-8") as f:
                         json.dump(data, f, indent=2)
                 except Exception:
                     pass
-                return data
+                return _in_memory_data
     except Exception as e:
         logger.info("Could not fetch remote GitHub snapshot: %s", e)
 
     # 4. Fallback: Generate empty initial template structure
     now_utc = datetime.now(timezone.utc)
-    return {
+    fallback = {
         "updated_at": now_utc.isoformat(),
         "updated_at_readable": now_utc.strftime("%d %b %Y, %I:%M %p UTC"),
         "total_found": 0,
@@ -103,6 +157,7 @@ def load_dashboard_data() -> Dict[str, Any]:
             "other_opportunities": [],
         },
     }
+    return enrich_dashboard_data(fallback)
 
 
 def perform_live_refresh() -> Dict[str, Any]:
@@ -147,7 +202,8 @@ def perform_live_refresh() -> Dict[str, Any]:
         "categorized_jobs": categorized,
     }
 
-    _in_memory_data = snapshot
+    enriched = enrich_dashboard_data(snapshot)
+    _in_memory_data = enriched
     _last_refresh_timestamp = time.time()
 
     # Save to disk as well
@@ -157,14 +213,21 @@ def perform_live_refresh() -> Dict[str, Any]:
     except Exception as e:
         logger.warning("Could not persist refreshed data: %s", e)
 
-    return snapshot
+    return enriched
 
 
 @app.route("/")
 def index():
-    """Render the main responsive dashboard."""
+    """Render the redesigned modern SaaS dashboard."""
     data = load_dashboard_data()
     return render_template("index.html", data=data)
+
+
+@app.route("/api/data")
+def api_data():
+    """Return JSON payload of current opportunities for client-side search and filters."""
+    data = load_dashboard_data()
+    return jsonify(data)
 
 
 @app.route("/api/refresh", methods=["POST", "GET"])
@@ -199,6 +262,7 @@ def refresh():
             "cooldown": False,
             "message": f"Scan complete! Found {snapshot['total_matching']} verified opportunities.",
             "total_matching": snapshot["total_matching"],
+            "data": snapshot,
         })
     except Exception as e:
         logger.error("Refresh failed: %s", e)
