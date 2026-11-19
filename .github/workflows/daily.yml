@@ -14,11 +14,8 @@ on:
           - 'true'
 
   # SCHEDULED TRIGGER (9:00 PM Indian Standard Time / 15:30 UTC)
-  # IMPORTANT: As instructed, the schedule is initially kept commented out
-  # until you add your GitHub Secrets and test the workflow via "Run workflow" above.
-  # Once tested successfully, uncomment the 2 lines below to enable daily 9 PM IST reports!
-  # schedule:
-  #   - cron: '30 15 * * *'
+  schedule:
+    - cron: '30 15 * * *'
 
 permissions:
   contents: write
@@ -47,9 +44,11 @@ jobs:
 
       - name: Run Internship JARVIS Pipeline
         env:
-          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS || secrets.GMAIL_USER }}
+          GMAIL_USER: ${{ secrets.GMAIL_ADDRESS || secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL || secrets.GMAIL_ADDRESS || secrets.GMAIL_USER }}
+          DASHBOARD_URL: 'https://internship-jarvis.onrender.com/'
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
           MIN_MATCH_SCORE: '40'
         run: |

@@ -103,17 +103,13 @@ def run_pipeline(
     unseen_jobs = [job for job in raw_jobs if job.get("id") not in seen_ids]
     logger.info("Fresh unseen postings to evaluate: %d", len(unseen_jobs))
 
-    if not unseen_jobs and not ignore_cache:
-        logger.info("All fetched postings have already been alerted previously. Nothing new to send.")
-        return True
-
     # 4. Score, evaluate eligibility, and categorize
     matcher = InternshipMatcher(profile=CANDIDATE_PROFILE)
     categorized = matcher.match_and_categorize(
-        unseen_jobs if unseen_jobs else raw_jobs,
+        unseen_jobs if unseen_jobs else [],
         min_score=min_score,
         max_per_section=max_per_section,
-    )
+    ) if unseen_jobs else {"paid_internships": [], "research_opportunities": [], "other_opportunities": []}
 
     paid_count = len(categorized["paid_internships"])
     research_count = len(categorized["research_opportunities"])
@@ -129,34 +125,48 @@ def run_pipeline(
     )
 
     if total_selected == 0:
-        logger.info("No postings matched the criteria above %d%% score.", min_score)
-        return True
+        logger.info("No new unreviewed postings matched criteria above %d%% score. Sending 'All Caught Up' report.", min_score)
 
     # 5. Save latest matches snapshot for the Web Dashboard
     try:
         now_utc = datetime.now(timezone.utc)
-        dashboard_data = {
-            "updated_at": now_utc.isoformat(),
-            "updated_at_readable": now_utc.strftime("%d %b %Y, %I:%M %p UTC"),
-            "total_found": len(raw_jobs),
-            "total_matching": total_selected,
-            "stats": {
-                "paid": paid_count,
-                "research": research_count,
-                "other": other_count,
-            },
-            "candidate": {
-                "education": CANDIDATE_PROFILE["education"],
-                "college": CANDIDATE_PROFILE["college"],
-                "semester": CANDIDATE_PROFILE["current_semester"],
-                "graduation_year": CANDIDATE_PROFILE.get("graduation_year", 2029),
-                "skills": CANDIDATE_PROFILE["skills"],
-            },
-            "categorized_jobs": categorized,
-        }
-        with open(LATEST_MATCHES_FILE, "w", encoding="utf-8") as f:
-            json.dump(dashboard_data, f, indent=2)
-        logger.info("Saved latest matches snapshot to %s", LATEST_MATCHES_FILE)
+        # If today's run found new items, write them out. If 0 new items were found, preserve existing cached jobs if available
+        if total_selected > 0 or not LATEST_MATCHES_FILE.exists():
+            dashboard_data = {
+                "updated_at": now_utc.isoformat(),
+                "updated_at_readable": now_utc.strftime("%d %b %Y, %I:%M %p UTC"),
+                "total_found": len(raw_jobs),
+                "total_matching": total_selected,
+                "stats": {
+                    "paid": paid_count,
+                    "research": research_count,
+                    "other": other_count,
+                },
+                "candidate": {
+                    "education": CANDIDATE_PROFILE["education"],
+                    "college": CANDIDATE_PROFILE["college"],
+                    "semester": CANDIDATE_PROFILE["current_semester"],
+                    "graduation_year": CANDIDATE_PROFILE.get("graduation_year", 2029),
+                    "skills": CANDIDATE_PROFILE["skills"],
+                },
+                "categorized_jobs": categorized,
+            }
+            with open(LATEST_MATCHES_FILE, "w", encoding="utf-8") as f:
+                json.dump(dashboard_data, f, indent=2)
+            logger.info("Saved latest matches snapshot to %s", LATEST_MATCHES_FILE)
+        else:
+            # Preserve existing job data, just update scan timestamp
+            try:
+                with open(LATEST_MATCHES_FILE, "r", encoding="utf-8") as f:
+                    existing_data = json.load(f)
+                existing_data["updated_at"] = now_utc.isoformat()
+                existing_data["updated_at_readable"] = now_utc.strftime("%d %b %Y, %I:%M %p UTC")
+                existing_data["total_found"] = len(raw_jobs)
+                with open(LATEST_MATCHES_FILE, "w", encoding="utf-8") as f:
+                    json.dump(existing_data, f, indent=2)
+                logger.info("Updated scan timestamp in %s", LATEST_MATCHES_FILE)
+            except Exception as e_inner:
+                logger.warning("Could not update existing snapshot timestamp: %s", e_inner)
     except Exception as e:
         logger.warning("Could not save latest matches file: %s", e)
 

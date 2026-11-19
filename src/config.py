@@ -126,9 +126,10 @@ EXPANDED_SKILL_LEXICON = [
 # ==========================================
 # SYSTEM & ENVIRONMENT CONFIGURATION
 # ==========================================
-GMAIL_USER = os.getenv("GMAIL_USER", "").strip()
+GMAIL_USER = (os.getenv("GMAIL_ADDRESS") or os.getenv("GMAIL_USER") or "").strip()
 GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "").strip()
-RECIPIENT_EMAIL = os.getenv("RECIPIENT_EMAIL", GMAIL_USER).strip()
+RECIPIENT_EMAIL = (os.getenv("RECIPIENT_EMAIL") or GMAIL_USER).strip()
+DASHBOARD_URL = os.getenv("DASHBOARD_URL", "https://internship-jarvis.onrender.com/").strip()
 
 # If credentials are missing, automatically fall back to DRY_RUN mode so local runs succeed
 DRY_RUN = os.getenv("DRY_RUN", "").lower() in ("true", "1", "yes") or not (GMAIL_USER and GMAIL_APP_PASSWORD)
