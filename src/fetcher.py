@@ -262,6 +262,7 @@ class InternshipFetcher:
                 "source": "SimplifyJobs (Verified Employer)",
                 "terms": terms,
                 "degrees": degrees,
+                "deadline": f"Target: {terms} (Rolling)" if terms else "Rolling / Open until filled",
                 "date_posted": item.get("date_posted"),
             })
 
@@ -307,6 +308,7 @@ class InternshipFetcher:
                 "is_paid": stipend_info["is_paid"],
                 "is_research": stipend_info["is_research"],
                 "source": "Remotive API",
+                "deadline": "Rolling / Open until filled",
                 "date_posted": job.get("publication_date", ""),
             })
 
@@ -348,6 +350,7 @@ class InternshipFetcher:
                 "is_paid": stipend_info["is_paid"],
                 "is_research": stipend_info["is_research"],
                 "source": "Jobicy API",
+                "deadline": "Rolling / Open until filled",
                 "date_posted": job.get("pubDate", ""),
             })
 
@@ -391,6 +394,7 @@ class InternshipFetcher:
                 "is_paid": stipend_info["is_paid"],
                 "is_research": stipend_info["is_research"],
                 "source": "Arbeitnow API",
+                "deadline": "Rolling / Open until filled",
                 "date_posted": job.get("created_at", ""),
             })
 
@@ -447,6 +451,7 @@ class InternshipFetcher:
                 "is_paid": stipend_info["is_paid"],
                 "is_research": stipend_info["is_research"],
                 "source": "We Work Remotely RSS",
+                "deadline": "Rolling / Open until filled",
                 "date_posted": pub_date,
             })
 

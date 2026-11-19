@@ -20,10 +20,12 @@ CANDIDATE_PROFILE = {
     "name": "Candidate",
     "education": "B.Tech Computer Science & Engineering",
     "college": "Jabalpur Engineering College",
+    "start_year": 2025,
+    "graduation_year": 2029,
     "current_semester": 3,
     "year_of_study": 2,  # 2nd year student
-    # Projected graduation year range for early undergrad
-    "target_grad_years": [2027, 2028],
+    # Projected graduation batch for 4-year degree starting 2025
+    "target_grad_years": [2028, 2029],
     # Primary skills in candidate's toolkit
     "skills": [
         "python",
@@ -45,13 +47,8 @@ CANDIDATE_PROFILE = {
         "data science",
         "technology research",
         "research",
-        "web development",
-        "backend",
-        "frontend",
-        "full stack",
-        "open source",
     ],
-    # Positive target signals for 1st & 2nd year students
+    # Positive target signals for early undergraduate students (2028/2029 batch)
     "early_student_signals": [
         "intern",
         "internship",
@@ -62,18 +59,15 @@ CANDIDATE_PROFILE = {
         "bachelor",
         "freshman",
         "sophomore",
-        "junior",
         "college",
         "student",
         "early career",
         "entry level",
         "entry-level",
-        "2027",
         "2028",
+        "2029",
         "summer 2025",
         "summer 2026",
-        "winter 2025",
-        "fall 2025",
     ],
     # Negative signals / exclusions (roles requiring extensive experience)
     "exclusion_keywords": [
@@ -147,5 +141,6 @@ MAX_RESULTS_PER_SECTION = int(os.getenv("MAX_RESULTS_PER_SECTION", "10"))
 DATA_DIR = BASE_DIR / "data"
 DATA_DIR.mkdir(exist_ok=True)
 SEEN_JOBS_FILE = DATA_DIR / "seen_jobs.json"
+LATEST_MATCHES_FILE = DATA_DIR / "latest_matches.json"
 REPORTS_DIR = BASE_DIR / "reports"
 REPORTS_DIR.mkdir(exist_ok=True)

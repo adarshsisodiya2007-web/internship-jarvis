@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship JARVIS — Intelligence Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --surface-hover: #273548;
+            --border-color: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #38bdf8;
+            --accent-green: #34d399;
+            --accent-amber: #fbbf24;
+            --accent-purple: #c084fc;
+            --accent-red: #f87171;
+            --card-radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.5;
+            padding-bottom: 60px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            padding: 16px 24px;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .brand-badge {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 14px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        .brand-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .brand-subtitle {
+            font-size: 12px;
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--accent-green);
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .status-pulse {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-green);
+        }
+
+        .btn-refresh {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-refresh:hover:not(:disabled) {
+            background: #1e40af;
+            box-shadow: 0 0 12px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-refresh:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 28px auto 0;
+            padding: 0 20px;
+        }
+
+        /* Profile Banner */
+        .profile-banner {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .profile-info h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .profile-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .profile-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .profile-tag {
+            background-color: #334155;
+            color: #e2e8f0;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 18px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .stat-blue::after { background-color: var(--accent-blue); }
+        .stat-green::after { background-color: var(--accent-green); }
+        .stat-purple::after { background-color: var(--accent-purple); }
+        .stat-amber::after { background-color: var(--accent-amber); }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-top: 6px;
+        }
+
+        .stat-subtext {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Tabs & Controls */
+        .controls-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background-color: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background-color: var(--surface-color);
+        }
+
+        .tab-btn.active {
+            background-color: #0284c7;
+            color: white;
+            border-color: #0284c7;
+        }
+
+        /* Opportunity Cards */
+        .opportunities-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .opportunity-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 22px;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+        }
+
+        .opportunity-card:hover {
+            border-color: #475569;
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .card-title-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .card-company {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-top: 4px;
+        }
+
+        .card-meta-chips {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .score-pill {
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .score-high { background-color: #059669; }
+        .score-medium { background-color: #0284c7; }
+        .score-low { background-color: #d97706; }
+
+        .source-pill {
+            font-size: 11px;
+            color: var(--text-muted);
+            background-color: #0f172a;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Details Grid */
+        .card-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            background-color: #0f172a;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 14px;
+            font-size: 12px;
+            border: 1px solid #1e293b;
+        }
+
+        .detail-item strong {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .detail-item span {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .stipend-highlight {
+            color: var(--accent-green) !important;
+            font-weight: 700 !important;
+        }
+
+        .eligibility-box {
+            margin-top: 12px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            background: rgba(56, 189, 248, 0.08);
+            border-left: 3px solid var(--accent-blue);
+            color: #bae6fd;
+        }
+
+        .rationale-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        .skills-section {
+            margin-top: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .skills-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .skill-badge-matched {
+            background-color: rgba(52, 211, 153, 0.15);
+            color: #6ee7b7;
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .skill-badge-missing {
+            background-color: rgba(251, 191, 36, 0.15);
+            color: #fde68a;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .card-footer {
+            margin-top: 16px;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid #334155;
+            padding-top: 12px;
+        }
+
+        .btn-apply {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-apply:hover {
+            background: #0284c7;
+            box-shadow: 0 0 12px rgba(2, 132, 199, 0.4);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--text-muted);
+            background-color: var(--surface-color);
+            border-radius: var(--card-radius);
+            border: 1px dashed var(--border-color);
+        }
+
+        .toast-msg {
+            display: none;
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background-color: #1e293b;
+            color: #f8fafc;
+            border: 1px solid #38bdf8;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/" class="brand-logo">
+                <span class="brand-badge">⚡ JARVIS</span>
+                <div>
+                    <div class="brand-title">Internship JARVIS</div>
+                    <div class="brand-subtitle">Automated Career Intelligence</div>
+                </div>
+            </a>
+            <div class="nav-actions">
+                <div class="status-badge">
+                    <span class="status-pulse"></span>
+                    <span>Daily 9:00 PM IST Pipeline Active</span>
+                </div>
+                <button id="refreshBtn" class="btn-refresh" onclick="triggerRefresh()">
+                    <span id="refreshIcon">🔄</span>
+                    <span id="refreshText">Scan & Refresh</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+
+        <!-- Candidate Profile Header -->
+        <section class="profile-banner">
+            <div class="profile-info">
+                <h2>Target Profile: {{ data.candidate.education }}</h2>
+                <p>{{ data.candidate.college }} &bull; Semester {{ data.candidate.semester }} &bull; Class of {{ data.candidate.graduation_year }} (Early Undergrad)</p>
+                <div class="profile-tags">
+                    <span class="profile-tag" style="background:#0284c7; color:#ffffff;">Core Stack:</span>
+                    {% for skill in data.candidate.skills %}
+                    <span class="profile-tag">{{ skill|capitalize }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div style="text-align: right; font-size: 12px; color: var(--text-secondary);">
+                <div>Last Database Scan:</div>
+                <strong style="color: var(--text-primary); font-size: 13px;">{{ data.updated_at_readable }}</strong>
+            </div>
+        </section>
+
+        <!-- Stats Overview Cards -->
+        <section class="stats-grid">
+            <div class="stat-card stat-blue">
+                <div class="stat-label">Total Verified Scanned</div>
+                <div class="stat-value">{{ data.total_found }}</div>
+                <div class="stat-subtext">Across 5 legitimate free sources</div>
+            </div>
+            <div class="stat-card stat-green">
+                <div class="stat-label">Matching Profile</div>
+                <div class="stat-value">{{ data.total_matching }}</div>
+                <div class="stat-subtext">Filtered for 2028/2029 undergrads</div>
+            </div>
+            <div class="stat-card stat-purple">
+                <div class="stat-label">Paid Internships</div>
+                <div class="stat-value">{{ data.stats.paid }}</div>
+                <div class="stat-subtext">Corporate & competitive pay</div>
+            </div>
+            <div class="stat-card stat-amber">
+                <div class="stat-label">Research & Fellowships</div>
+                <div class="stat-value">{{ data.stats.research }}</div>
+                <div class="stat-subtext">University labs & open source</div>
+            </div>
+        </section>
+
+        <!-- Filters & Category Navigation -->
+        <div class="controls-row">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="filterCategory('all', this)">All Opportunities ({{ data.total_matching }})</button>
+                <button class="tab-btn" onclick="filterCategory('paid', this)">💰 Paid Internships ({{ data.stats.paid }})</button>
+                <button class="tab-btn" onclick="filterCategory('research', this)">🔬 Research & Fellowships ({{ data.stats.research }})</button>
+                <button class="tab-btn" onclick="filterCategory('other', this)">📋 Other Matches ({{ data.stats.other }})</button>
+            </div>
+        </div>
+
+        <!-- Opportunities Container -->
+        <section class="opportunities-list" id="opportunitiesList">
+
+            <!-- Paid Internships -->
+            {% for job in data.categorized_jobs.paid_internships %}
+            <article class="opportunity-card" data-category="paid">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <h3 class="card-title">{{ job.title }}</h3>
+                        <div class="card-company">{{ job.company }} &bull; <span style="color:var(--text-secondary); font-weight:400;">{{ job.location }}</span></div>
+                    </div>
+                    <div class="card-meta-chips">
+                        <span class="score-pill {% if job.match_score >= 80 %}score-high{% elif job.match_score >= 60 %}score-medium{% else %}score-low{% endif %}">
+                            {{ job.match_score }}% Match
+                        </span>
+                        <span class="source-pill">{{ job.source }}</span>
+                    </div>
+                </div>
+
+                <div class="card-details-grid">
+                    <div class="detail-item"><strong>Stipend:</strong> <span class="stipend-highlight">{{ job.stipend }}</span></div>
+                    <div class="detail-item"><strong>Timeline:</strong> <span>{{ job.deadline }}</span></div>
+                    <div class="detail-item"><strong>Category:</strong> <span>Paid Internship</span></div>
+                </div>
+
+                <div class="eligibility-box">
+                    <strong>Eligibility:</strong> {{ job.eligibility_notes }}
+                </div>
+
+                <p class="rationale-text">
+                    <strong>Why it matches:</strong> {{ job.match_explanation }}
+                </p>
+
+                <div class="skills-section">
+                    <div class="skills-row">
+                        <span style="color:var(--text-secondary); font-weight:600;">Matched Skills:</span>
+                        {% for s in job.matched_skills %}
+                        <span class="skill-badge-matched">✓ {{ s }}</span>
+                        {% else %}
+                        <span style="color:var(--text-muted);">Foundational CS</span>
+                        {% endfor %}
+                    </div>
+                    <div class="skills-row">
+                        <span style="color:var(--text-secondary); font-weight:600;">Skills to Learn / Highlight:</span>
+                        {% for s in job.missing_skills %}
+                        <span class="skill-badge-missing">+ {{ s }}</span>
+                        {% else %}
+                        <span style="color:var(--accent-green); font-size:11px;">No major skill gaps identified</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <a href="{{ job.url }}" target="_blank" rel="noopener noreferrer" class="btn-apply">
+                        Official Application Link &rarr;
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+
+            <!-- Research Fellowships -->
+            {% for job in data.categorized_jobs.research_opportunities %}
+            <article class="opportunity-card" data-category="research">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <h3 class="card-title">{{ job.title }}</h3>
+                        <div class="card-company">{{ job.company }} &bull; <span style="color:var(--text-secondary); font-weight:400;">{{ job.location }}</span></div>
+                    </div>
+                    <div class="card-meta-chips">
+                        <span class="score-pill {% if job.match_score >= 80 %}score-high{% elif job.match_score >= 60 %}score-medium{% else %}score-low{% endif %}">
+                            {{ job.match_score }}% Match
+                        </span>
+                        <span class="source-pill">{{ job.source }}</span>
+                    </div>
+                </div>
+
+                <div class="card-details-grid">
+                    <div class="detail-item"><strong>Stipend:</strong> <span class="stipend-highlight">{{ job.stipend }}</span></div>
+                    <div class="detail-item"><strong>Timeline:</strong> <span>{{ job.deadline }}</span></div>
+                    <div class="detail-item"><strong>Category:</strong> <span>Research / Fellowship</span></div>
+                </div>
+
+                <div class="eligibility-box" style="border-left-color: var(--accent-purple); color: #e9d5ff; background: rgba(192, 132, 252, 0.08);">
+                    <strong>Eligibility:</strong> {{ job.eligibility_notes }}
+                </div>
+
+                <p class="rationale-text">
+                    <strong>Why it matches:</strong> {{ job.match_explanation }}
+                </p>
+
+                <div class="skills-section">
+                    <div class="skills-row">
+                        <span style="color:var(--text-secondary); font-weight:600;">Matched Skills:</span>
+                        {% for s in job.matched_skills %}
+                        <span class="skill-badge-matched">✓ {{ s }}</span>
+                        {% else %}
+                        <span style="color:var(--text-muted);">Research / Scientific Foundation</span>
+                        {% endfor %}
+                    </div>
+                    <div class="skills-row">
+                        <span style="color:var(--text-secondary); font-weight:600;">Skills to Learn / Highlight:</span>
+                        {% for s in job.missing_skills %}
+                        <span class="skill-badge-missing">+ {{ s }}</span>
+                        {% else %}
+                        <span style="color:var(--accent-green); font-size:11px;">No major skill gaps identified</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <a href="{{ job.url }}" target="_blank" rel="noopener noreferrer" class="btn-apply" style="background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);">
+                        Official Application Link &rarr;
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+
+            <!-- Other Opportunities -->
+            {% for job in data.categorized_jobs.other_opportunities %}
+            <article class="opportunity-card" data-category="other">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <h3 class="card-title">{{ job.title }}</h3>
+                        <div class="card-company">{{ job.company }} &bull; <span style="color:var(--text-secondary); font-weight:400;">{{ job.location }}</span></div>
+                    </div>
+                    <div class="card-meta-chips">
+                        <span class="score-pill {% if job.match_score >= 80 %}score-high{% elif job.match_score >= 60 %}score-medium{% else %}score-low{% endif %}">
+                            {{ job.match_score }}% Match
+                        </span>
+                        <span class="source-pill">{{ job.source }}</span>
+                    </div>
+                </div>
+
+                <div class="card-details-grid">
+                    <div class="detail-item"><strong>Stipend:</strong> <span>{{ job.stipend }}</span></div>
+                    <div class="detail-item"><strong>Timeline:</strong> <span>{{ job.deadline }}</span></div>
+                    <div class="detail-item"><strong>Category:</strong> <span>General Tech Opportunity</span></div>
+                </div>
+
+                <div class="eligibility-box" style="border-left-color: var(--accent-amber); color: #fef08a; background: rgba(251, 191, 36, 0.08);">
+                    <strong>Eligibility:</strong> {{ job.eligibility_notes }}
+                </div>
+
+                <p class="rationale-text">
+                    <strong>Why it matches:</strong> {{ job.match_explanation }}
+                </p>
+
+                <div class="skills-section">
+                    <div class="skills-row">
+                        <span style="color:var(--text-secondary); font-weight:600;">Matched Skills:</span>
+                        {% for s in job.matched_skills %}
+                        <span class="skill-badge-matched">✓ {{ s }}</span>
+                        {% else %}
+                        <span style="color:var(--text-muted);">CS Core</span>
+                        {% endfor %}
+                    </div>
+                    <div class="skills-row">
+                        <span style="color:var(--text-secondary); font-weight:600;">Skills to Learn / Highlight:</span>
+                        {% for s in job.missing_skills %}
+                        <span class="skill-badge-missing">+ {{ s }}</span>
+                        {% else %}
+                        <span style="color:var(--accent-green); font-size:11px;">No major skill gaps identified</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <a href="{{ job.url }}" target="_blank" rel="noopener noreferrer" class="btn-apply" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%);">
+                        Official Application Link &rarr;
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+
+            {% if data.total_matching == 0 %}
+            <div class="empty-state">
+                <h3>No opportunities currently above the {{ data.min_score }}% threshold</h3>
+                <p style="margin-top:8px;">Click "Scan & Refresh" above to query fresh listings across public sources.</p>
+            </div>
+            {% endif %}
+
+        </section>
+
+    </main>
+
+    <div id="toast" class="toast-msg"></div>
+
+    <script>
+        function filterCategory(cat, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const cards = document.querySelectorAll('.opportunity-card');
+            cards.forEach(card => {
+                if (cat === 'all' || card.dataset.category === cat) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        let isRefreshing = false;
+        async function triggerRefresh() {
+            if (isRefreshing) return;
+            const btn = document.getElementById('refreshBtn');
+            const icon = document.getElementById('refreshIcon');
+            const text = document.getElementById('refreshText');
+
+            isRefreshing = true;
+            btn.disabled = true;
+            icon.innerText = '⏳';
+            text.innerText = 'Scanning live APIs...';
+
+            try {
+                const resp = await fetch('/api/refresh', { method: 'POST' });
+                const result = await resp.json();
+                showToast(result.message || 'Refresh complete!');
+                if (result.success && !result.cooldown) {
+                    setTimeout(() => window.location.reload(), 1200);
+                } else {
+                    resetButton();
+                }
+            } catch (err) {
+                showToast('Failed to refresh data: ' + err.message);
+                resetButton();
+            }
+        }
+
+        function resetButton() {
+            isRefreshing = false;
+            const btn = document.getElementById('refreshBtn');
+            const icon = document.getElementById('refreshIcon');
+            const text = document.getElementById('refreshText');
+            btn.disabled = false;
+            icon.innerText = '🔄';
+            text.innerText = 'Scan & Refresh';
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 4000);
+        }
+    </script>
+</body>
+</html>

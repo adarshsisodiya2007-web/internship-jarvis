@@ -80,26 +80,55 @@ class InternshipMatcher:
             if any(re.search(rf"\b{re.escape(k)}\b", full_text) for k in keywords):
                 matched_interests.append(domain)
 
-        # 4. Check Eligibility & Student Level
+        # 4. Check Eligibility & Student Level (Graduating 2029, 3rd Sem / 2nd Year)
         eligibility_notes: List[str] = []
         is_early_friendly = False
+        is_ineligible = False
 
-        # Positive signals
-        early_signals = ["freshman", "sophomore", "undergraduate", "bachelor", "student", "intern", "2027", "2028"]
+        # Positive signals for freshman / sophomore / early undergrads
+        early_signals = ["freshman", "sophomore", "undergraduate", "bachelor", "student", "intern", "2028", "2029"]
         if any(sig in full_text for sig in early_signals):
             is_early_friendly = True
 
-        # Graduation year check
-        if "2025" in full_text and not ("2027" in full_text or "2028" in full_text):
-            eligibility_notes.append("Targeting graduating class of 2025/2026. Verify pre-final eligibility.")
-        elif any(y in full_text for y in ["2027", "2028"]):
-            eligibility_notes.append("Explicitly open to 2027/2028 batch (Ideal for 3rd semester).")
+        # Check for strict graduation year mismatches (Candidate graduates in 2029)
+        senior_grad_patterns = [
+            r"\bclass of 2025\b",
+            r"\bgraduating (?:in )?2025\b",
+            r"\b2025 graduates?\b",
+            r"\bclass of 2026\b",
+            r"\bgraduating (?:in )?2026\b",
+            r"\b2026 graduates?\b",
+            r"\bfinal[- ]year students? only\b",
+            r"\bgraduating seniors? only\b",
+        ]
+        has_senior_req = any(re.search(pat, full_text) for pat in senior_grad_patterns)
+
+        target_grad_patterns = [
+            r"\bclass of 2028\b",
+            r"\bclass of 2029\b",
+            r"\bgraduating (?:in )?2028\b",
+            r"\bgraduating (?:in )?2029\b",
+            r"\b2028(?:\s*-\s*2029)? graduates?\b",
+            r"\bfreshm[ae]n or sophomores?\b",
+            r"\b1st or 2nd year\b",
+            r"\bsecond[- ]year students?\b",
+        ]
+        has_target_req = any(re.search(pat, full_text) for pat in target_grad_patterns)
+
+        if has_senior_req and not has_target_req:
+            is_ineligible = True
+            eligibility_notes.append("Ineligible: Requires 2025/2026 graduating batch (You graduate in 2029).")
+        elif has_target_req:
+            eligibility_notes.append("Highly Eligible: Specifically targets 2028/2029 batch / 2nd year undergraduates.")
+        elif any(k in full_text for k in ["bachelor", "undergraduate", "b.tech", "college student"]):
+            eligibility_notes.append("Eligible: Open to B.Tech Computer Science undergraduates.")
         else:
-            eligibility_notes.append("Open to undergraduate Computer Science students.")
+            eligibility_notes.append("Undergraduate CS student; verify specific company graduation criteria.")
 
         # Degree check
-        if "phd only" in full_text or "master's required" in full_text:
-            eligibility_notes.append("Postgraduate degree preferred; check undergrad eligibility.")
+        if any(pat in full_text for pat in ["phd only", "master's required", "must be enrolled in a master"]):
+            is_ineligible = True
+            eligibility_notes.append("Ineligible: Advanced postgraduate degree required.")
 
         # 5. Compute Match Score (0 - 100)
         score = 0
@@ -113,7 +142,6 @@ class InternshipMatcher:
         elif skill_count == 1:
             score += 20
         else:
-            # If standard software engineering role with Python / JS implied
             if "software" in full_text or "developer" in full_text or "python" in full_text:
                 score += 15
 
@@ -121,18 +149,23 @@ class InternshipMatcher:
         if matched_interests:
             score += min(25, len(matched_interests) * 12)
 
-        # C. Role level & early student friendliness (Max 25 points)
+        # C. Role level & student friendliness (Max 25 points)
         title_lower = title.lower()
         if "intern" in title_lower or "trainee" in title_lower or "fellow" in title_lower:
             score += 20
         if is_early_friendly:
             score += 5
+        if has_target_req:
+            score += 10
 
         # D. Degree / Field relevance (Max 10 points)
         if any(k in full_text for k in ["computer science", "b.tech", "engineering", "bachelor", "cse"]):
             score += 10
 
-        # E. Exclusion / Penalty deductions
+        # E. Ineligibility & Exclusion Deductions
+        if is_ineligible:
+            score -= 45
+
         for exc in self.profile.get("exclusion_keywords", []):
             if exc in title_lower:
                 score -= 40

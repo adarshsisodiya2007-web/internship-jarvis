@@ -22,6 +22,7 @@ from typing import Any, Dict, List, Set
 from src.config import (
     CANDIDATE_PROFILE,
     DRY_RUN,
+    LATEST_MATCHES_FILE,
     MAX_RESULTS_PER_SECTION,
     MIN_MATCH_SCORE,
     SEEN_JOBS_FILE,
@@ -131,12 +132,40 @@ def run_pipeline(
         logger.info("No postings matched the criteria above %d%% score.", min_score)
         return True
 
-    # 5. Dispatch email or write local HTML report
+    # 5. Save latest matches snapshot for the Web Dashboard
+    try:
+        now_utc = datetime.now(timezone.utc)
+        dashboard_data = {
+            "updated_at": now_utc.isoformat(),
+            "updated_at_readable": now_utc.strftime("%d %b %Y, %I:%M %p UTC"),
+            "total_found": len(raw_jobs),
+            "total_matching": total_selected,
+            "stats": {
+                "paid": paid_count,
+                "research": research_count,
+                "other": other_count,
+            },
+            "candidate": {
+                "education": CANDIDATE_PROFILE["education"],
+                "college": CANDIDATE_PROFILE["college"],
+                "semester": CANDIDATE_PROFILE["current_semester"],
+                "graduation_year": CANDIDATE_PROFILE.get("graduation_year", 2029),
+                "skills": CANDIDATE_PROFILE["skills"],
+            },
+            "categorized_jobs": categorized,
+        }
+        with open(LATEST_MATCHES_FILE, "w", encoding="utf-8") as f:
+            json.dump(dashboard_data, f, indent=2)
+        logger.info("Saved latest matches snapshot to %s", LATEST_MATCHES_FILE)
+    except Exception as e:
+        logger.warning("Could not save latest matches file: %s", e)
+
+    # 6. Dispatch email or write local HTML report
     sender = EmailSender()
     sender.dry_run = dry_run
     send_success = sender.send_report(categorized)
 
-    # 6. Update seen jobs cache if send or dry-run was successful
+    # 7. Update seen jobs cache if send or dry-run was successful
     if send_success and not ignore_cache:
         for cat in categorized.values():
             for item in cat:

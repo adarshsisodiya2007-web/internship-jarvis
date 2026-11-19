@@ -20,6 +20,9 @@ on:
   # schedule:
   #   - cron: '30 15 * * *'
 
+permissions:
+  contents: write
+
 jobs:
   run-internship-jarvis:
     name: Find & Email Matching Internships
@@ -28,6 +31,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -49,6 +54,14 @@ jobs:
           MIN_MATCH_SCORE: '40'
         run: |
           python -m src.main
+
+      - name: Commit and push latest matches snapshot for Web Dashboard
+        if: success()
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/latest_matches.json
+          git diff --staged --quiet || (git commit -m "chore(data): update latest matches snapshot [skip ci]" && git push origin main)
 
       - name: Upload HTML Report Artifact
         if: always()
