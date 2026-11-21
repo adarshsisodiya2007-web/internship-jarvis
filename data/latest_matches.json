@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-11-20T22:19:20.307416+00:00",
-  "updated_at_readable": "20 Nov 2026, 10:19 PM UTC",
-  "total_found": 5084,
+  "updated_at": "2026-11-21T21:01:47.584153+00:00",
+  "updated_at_readable": "21 Nov 2026, 09:01 PM UTC",
+  "total_found": 5163,
   "total_matching": 60,
   "stats": {
     "paid": 30,
@@ -285,31 +285,6 @@
         ],
         "eligibility_notes": "Eligible: Open to B.Tech Computer Science undergraduates.",
         "match_explanation": "Aligns with your interest in Software Development, AI / Machine Learning, Data Science; Suitable for early undergrads (1st/2nd year / 3rd semester)."
-      },
-      {
-        "id": "0e584e48e3715070",
-        "title": "Software Engineer Project Intern - Content AI Infrastructure",
-        "company": "TikTok",
-        "url": "https://lifeattiktok.com/search/7621299118434961669",
-        "location": "San Jose, CA",
-        "description": "Software Engineer Project Intern - Content AI Infrastructure at TikTok. Category: Software. Terms: Summer 2026. Degrees: Bachelor's, Master's. Location: San Jose, CA",
-        "stipend": "Competitive Tech Stipend / Disclosed Upon Offer",
-        "is_paid": true,
-        "is_research": false,
-        "source": "SimplifyJobs (Verified Employer)",
-        "terms": "Summer 2026",
-        "degrees": "Bachelor's, Master's",
-        "deadline": "Target: Summer 2026 (Rolling)",
-        "date_posted": 1774505827,
-        "match_score": 74,
-        "matched_skills": [],
-        "missing_skills": [],
-        "matched_interests": [
-          "Software Development",
-          "AI / Machine Learning"
-        ],
-        "eligibility_notes": "Eligible: Open to B.Tech Computer Science undergraduates.",
-        "match_explanation": "Aligns with your interest in Software Development, AI / Machine Learning; Suitable for early undergrads (1st/2nd year / 3rd semester)."
       },
       {
         "id": "e808b903ff48bfa9",
@@ -712,31 +687,6 @@
         "match_explanation": "Aligns with your interest in Software Development, AI / Machine Learning; Suitable for early undergrads (1st/2nd year / 3rd semester)."
       },
       {
-        "id": "a3f4464de8e23f09",
-        "title": "AI and Software Engineer Intern - Automotive MPUs",
-        "company": "NXP Semiconductors",
-        "url": "https://nxp.wd3.myworkdayjobs.com/en-US/careers/job/Glasgow/Intern-AI-and-Software-Engineer---Automotive-MPUs_R-10065882-1",
-        "location": "Glasgow, UK",
-        "description": "AI and Software Engineer Intern - Automotive MPUs at NXP Semiconductors. Category: Software. Terms: Summer 2026. Degrees: Bachelor's. Location: Glasgow, UK",
-        "stipend": "Competitive Tech Stipend / Disclosed Upon Offer",
-        "is_paid": true,
-        "is_research": false,
-        "source": "SimplifyJobs (Verified Employer)",
-        "terms": "Summer 2026",
-        "degrees": "Bachelor's",
-        "deadline": "Target: Summer 2026 (Rolling)",
-        "date_posted": 1786924800,
-        "match_score": 74,
-        "matched_skills": [],
-        "missing_skills": [],
-        "matched_interests": [
-          "Software Development",
-          "AI / Machine Learning"
-        ],
-        "eligibility_notes": "Eligible: Open to B.Tech Computer Science undergraduates.",
-        "match_explanation": "Aligns with your interest in Software Development, AI / Machine Learning; Suitable for early undergrads (1st/2nd year / 3rd semester)."
-      },
-      {
         "id": "a2fa3300db995e30",
         "title": "Artificial Intelligence Developer Intern - Aerospace/Aviation",
         "company": "SimIS",
@@ -785,6 +735,56 @@
         ],
         "eligibility_notes": "Eligible: Open to B.Tech Computer Science undergraduates.",
         "match_explanation": "Aligns with your interest in Software Development, Data Science; Suitable for early undergrads (1st/2nd year / 3rd semester)."
+      },
+      {
+        "id": "6c70b8d4ece9349d",
+        "title": "Software Engineer Intern",
+        "company": "C3.ai",
+        "url": "https://c3.ai/job-description/8739037002?gh_jid=8739037002",
+        "location": "Redwood City, CA",
+        "description": "Software Engineer Intern at C3.ai. Category: Software. Terms: Summer 2027. Degrees: Bachelor's, Master's. Location: Redwood City, CA",
+        "stipend": "Competitive Tech Stipend / Disclosed Upon Offer",
+        "is_paid": true,
+        "is_research": false,
+        "source": "SimplifyJobs (Verified Employer)",
+        "terms": "Summer 2027",
+        "degrees": "Bachelor's, Master's",
+        "deadline": "Target: Summer 2027 (Rolling)",
+        "date_posted": 1788203992,
+        "match_score": 74,
+        "matched_skills": [],
+        "missing_skills": [],
+        "matched_interests": [
+          "Software Development",
+          "AI / Machine Learning"
+        ],
+        "eligibility_notes": "Eligible: Open to B.Tech Computer Science undergraduates.",
+        "match_explanation": "Aligns with your interest in Software Development, AI / Machine Learning; Suitable for early undergrads (1st/2nd year / 3rd semester)."
+      },
+      {
+        "id": "c547394c62fe49ae",
+        "title": "Software Engineer Intern - Product & Developer Productivity - Summer 2027",
+        "company": "HP IQ",
+        "url": "https://job-boards.greenhouse.io/hpiq/jobs/6114890004",
+        "location": "SF",
+        "description": "Software Engineer Intern - Product & Developer Productivity - Summer 2027 at HP IQ. Category: AI/ML/Data. Terms: Summer 2027. Degrees: Bachelor's, Master's. Location: SF",
+        "stipend": "Competitive Tech Stipend / Disclosed Upon Offer",
+        "is_paid": true,
+        "is_research": false,
+        "source": "SimplifyJobs (Verified Employer)",
+        "terms": "Summer 2027",
+        "degrees": "Bachelor's, Master's",
+        "deadline": "Target: Summer 2027 (Rolling)",
+        "date_posted": 1788217499,
+        "match_score": 74,
+        "matched_skills": [],
+        "missing_skills": [],
+        "matched_interests": [
+          "Software Development",
+          "AI / Machine Learning"
+        ],
+        "eligibility_notes": "Eligible: Open to B.Tech Computer Science undergraduates.",
+        "match_explanation": "Aligns with your interest in Software Development, AI / Machine Learning; Suitable for early undergrads (1st/2nd year / 3rd semester)."
       }
     ],
     "research_opportunities": [
@@ -1266,6 +1266,31 @@
         "match_explanation": "Aligns with your interest in Software Development, Technology Research; Suitable for early undergrads (1st/2nd year / 3rd semester)."
       },
       {
+        "id": "cf4b36f67baacbba",
+        "title": "Information Technology Research Development Intern",
+        "company": "Calamos Investments",
+        "url": "https://recruiting2.ultipro.com/cal1001cala/JobBoard/46b96419-fba6-4dd0-a5fa-715bdfcf845b/OpportunityDetail?opportunityId=8ba1e4ff-1ee1-46ab-b93f-9a4e4b6eb487",
+        "location": "Naperville, IL",
+        "description": "Information Technology Research Development Intern at Calamos Investments. Category: Software. Terms: N/A. Degrees: Bachelor's, Master's. Location: Naperville, IL",
+        "stipend": "Research Fellowship / Academic Grant",
+        "is_paid": false,
+        "is_research": true,
+        "source": "SimplifyJobs (Verified Employer)",
+        "terms": "N/A",
+        "degrees": "Bachelor's, Master's",
+        "deadline": "Target: N/A (Rolling)",
+        "date_posted": 1795217291,
+        "match_score": 74,
+        "matched_skills": [],
+        "missing_skills": [],
+        "matched_interests": [
+          "Software Development",
+          "Technology Research"
+        ],
+        "eligibility_notes": "Eligible: Open to B.Tech Computer Science undergraduates.",
+        "match_explanation": "Aligns with your interest in Software Development, Technology Research; Suitable for early undergrads (1st/2nd year / 3rd semester)."
+      },
+      {
         "id": "dac782be35d40303",
         "title": "Research Intern - AI-Native Databases",
         "company": "ByteDance",
@@ -1512,31 +1537,6 @@
         "degrees": "",
         "deadline": "Target: Summer 2026 (Rolling)",
         "date_posted": 1776982049,
-        "match_score": 64,
-        "matched_skills": [],
-        "missing_skills": [],
-        "matched_interests": [
-          "Software Development",
-          "Technology Research"
-        ],
-        "eligibility_notes": "Undergraduate CS student; verify specific company graduation criteria.",
-        "match_explanation": "Aligns with your interest in Software Development, Technology Research; Suitable for early undergrads (1st/2nd year / 3rd semester)."
-      },
-      {
-        "id": "bbda30bc5a473ddd",
-        "title": "Game Research & Development Intern - Engine Research",
-        "company": "Tencent",
-        "url": "https://tencent.wd1.myworkdayjobs.com/Tencent_Careers/job/US-California-Los-Angeles/Game-Research---Development-Intern--Engine-Research_R107344-1",
-        "location": "LA",
-        "description": "Game Research & Development Intern - Engine Research at Tencent. Category: Software. Terms: Summer 2026. Degrees: Master's, PhD. Location: LA",
-        "stipend": "Research Fellowship / Academic Grant",
-        "is_paid": false,
-        "is_research": true,
-        "source": "SimplifyJobs (Verified Employer)",
-        "terms": "Summer 2026",
-        "degrees": "Master's, PhD",
-        "deadline": "Target: Summer 2026 (Rolling)",
-        "date_posted": 1776982048,
         "match_score": 64,
         "matched_skills": [],
         "missing_skills": [],
