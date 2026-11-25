@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-11-24T02:30:50.784463+00:00",
-  "updated_at_readable": "24 Nov 2026, 02:30 AM UTC",
-  "total_found": 5122,
+  "updated_at": "2026-11-25T00:02:34.826017+00:00",
+  "updated_at_readable": "25 Nov 2026, 12:02 AM UTC",
+  "total_found": 5106,
   "total_matching": 60,
   "stats": {
     "paid": 30,
@@ -612,31 +612,6 @@
         "match_explanation": "Aligns with your interest in Software Development, AI / Machine Learning; Suitable for early undergrads (1st/2nd year / 3rd semester)."
       },
       {
-        "id": "c57e509556d37d46",
-        "title": "Software Engineer Intern",
-        "company": "HPR (Hyannis Port Research)",
-        "url": "https://job-boards.greenhouse.io/hyannisportresearch/jobs/7822989003",
-        "location": "Needham, MA",
-        "description": "Software Engineer Intern at HPR (Hyannis Port Research). Category: Software. Terms: Summer 2027. Degrees: Bachelor's, Master's. Location: Needham, MA",
-        "stipend": "Competitive Tech Stipend / Disclosed Upon Offer",
-        "is_paid": true,
-        "is_research": false,
-        "source": "SimplifyJobs (Verified Employer)",
-        "terms": "Summer 2027",
-        "degrees": "Bachelor's, Master's",
-        "deadline": "Target: Summer 2027 (Rolling)",
-        "date_posted": 1785623162,
-        "match_score": 74,
-        "matched_skills": [],
-        "missing_skills": [],
-        "matched_interests": [
-          "Software Development",
-          "Technology Research"
-        ],
-        "eligibility_notes": "Eligible: Open to B.Tech Computer Science undergraduates.",
-        "match_explanation": "Aligns with your interest in Software Development, Technology Research; Suitable for early undergrads (1st/2nd year / 3rd semester)."
-      },
-      {
         "id": "265861427400094a",
         "title": "Software Engineer Intern - AI Platform",
         "company": "ByteDance",
@@ -776,6 +751,31 @@
         "degrees": "Bachelor's, Master's",
         "deadline": "Target: Summer 2027 (Rolling)",
         "date_posted": 1788217499,
+        "match_score": 74,
+        "matched_skills": [],
+        "missing_skills": [],
+        "matched_interests": [
+          "Software Development",
+          "AI / Machine Learning"
+        ],
+        "eligibility_notes": "Eligible: Open to B.Tech Computer Science undergraduates.",
+        "match_explanation": "Aligns with your interest in Software Development, AI / Machine Learning; Suitable for early undergrads (1st/2nd year / 3rd semester)."
+      },
+      {
+        "id": "75e277acd2dd0542",
+        "title": "Software Engineer Intern - AML Platform",
+        "company": "HP IQ",
+        "url": "https://job-boards.greenhouse.io/hpiq/jobs/6114781004",
+        "location": "SF",
+        "description": "Software Engineer Intern - AML Platform at HP IQ. Category: AI/ML/Data. Terms: Summer 2027. Degrees: Bachelor's. Location: SF",
+        "stipend": "Competitive Tech Stipend / Disclosed Upon Offer",
+        "is_paid": true,
+        "is_research": false,
+        "source": "SimplifyJobs (Verified Employer)",
+        "terms": "Summer 2027",
+        "degrees": "Bachelor's",
+        "deadline": "Target: Summer 2027 (Rolling)",
+        "date_posted": 1788217502,
         "match_score": 74,
         "matched_skills": [],
         "missing_skills": [],
@@ -1005,31 +1005,6 @@
         "degrees": "Bachelor's",
         "deadline": "Target: Winter 2026 (Rolling)",
         "date_posted": 1790720140,
-        "match_score": 74,
-        "matched_skills": [],
-        "missing_skills": [],
-        "matched_interests": [
-          "Software Development",
-          "Technology Research"
-        ],
-        "eligibility_notes": "Eligible: Open to B.Tech Computer Science undergraduates.",
-        "match_explanation": "Aligns with your interest in Software Development, Technology Research; Suitable for early undergrads (1st/2nd year / 3rd semester)."
-      },
-      {
-        "id": "d6ba6fd375d0a175",
-        "title": "Micro-Intern: Research Technology Developer",
-        "company": "Point72",
-        "url": "https://boards.greenhouse.io/point72/jobs/8236734002",
-        "location": "NYC",
-        "description": "Micro-Intern: Research Technology Developer at Point72. Category: Software. Terms: Winter 2026. Degrees: Bachelor's. Location: NYC",
-        "stipend": "Research Fellowship / Academic Grant",
-        "is_paid": false,
-        "is_research": true,
-        "source": "SimplifyJobs (Verified Employer)",
-        "terms": "Winter 2026",
-        "degrees": "Bachelor's",
-        "deadline": "Target: Winter 2026 (Rolling)",
-        "date_posted": 1790893938,
         "match_score": 74,
         "matched_skills": [],
         "missing_skills": [],
@@ -1291,6 +1266,54 @@
         "match_explanation": "Aligns with your interest in Software Development, Technology Research; Suitable for early undergrads (1st/2nd year / 3rd semester)."
       },
       {
+        "id": "d12738d389e5dfdc",
+        "title": "AI Engineering Intern",
+        "company": "Sanovio",
+        "url": "https://www.arbeitnow.com/jobs/companies/sanovio/ai-engineering-intern-munich-228220",
+        "location": "Munich",
+        "description": "About the role We\u2019re looking for one AI Engineering Intern to help us build AI systems end-to-end for one of the most complex workflows in European healthcare: procurement. This is a fast-paced, hands-on role for candidates with high agency. At SANOVIO, you will collaborate closely with a small, high-performing team and gain real-world experience building AI-enabled applications in a cross-border B2B environment. If you're excited about software engineering and AI, this is your opportunity to le",
+        "stipend": "Research Fellowship / Academic Grant",
+        "is_paid": false,
+        "is_research": true,
+        "source": "Arbeitnow API",
+        "deadline": "Rolling / Open until filled",
+        "date_posted": 1795534815,
+        "match_score": 74,
+        "matched_skills": [],
+        "missing_skills": [],
+        "matched_interests": [
+          "Software Development",
+          "AI / Machine Learning"
+        ],
+        "eligibility_notes": "Undergraduate CS student; verify specific company graduation criteria.",
+        "match_explanation": "Aligns with your interest in Software Development, AI / Machine Learning; Suitable for early undergrads (1st/2nd year / 3rd semester)."
+      },
+      {
+        "id": "2a9fcda0b439ae5e",
+        "title": "Research Scientist Intern (PhD) - Cohort '27",
+        "company": "Prior Labs",
+        "url": "https://www.arbeitnow.com/jobs/companies/prior-labs/research-scientist-intern-phd-cohort-27-berlin-203500",
+        "location": "Berlin",
+        "description": "Who we are Foundation models transformed text and images. Structured data - the largest and most consequential data format in the world - stayed untouched, until now. What LLMs did for language, we're doing for tables. We pioneered tabular foundation models: TabPFN v2 was a Nature cover story, has passed 3.5M+ downloads and 7,500+ GitHub stars, and runs in production from detecting lung disease with Oxford Cancer Analytics to preventing train failures with Hitachi . The hardest problems - millio",
+        "stipend": "Research Fellowship / Academic Grant",
+        "is_paid": false,
+        "is_research": true,
+        "source": "Arbeitnow API",
+        "deadline": "Rolling / Open until filled",
+        "date_posted": 1795545613,
+        "match_score": 69,
+        "matched_skills": [
+          "Git"
+        ],
+        "missing_skills": [],
+        "matched_interests": [
+          "Data Science",
+          "Technology Research"
+        ],
+        "eligibility_notes": "Undergraduate CS student; verify specific company graduation criteria.",
+        "match_explanation": "Matches your core skills: Git; Aligns with your interest in Data Science, Technology Research; Suitable for early undergrads (1st/2nd year / 3rd semester)."
+      },
+      {
         "id": "dac782be35d40303",
         "title": "Research Intern - AI-Native Databases",
         "company": "ByteDance",
@@ -1512,31 +1535,6 @@
         "degrees": "",
         "deadline": "Target: Summer 2026 (Rolling)",
         "date_posted": 1776982042,
-        "match_score": 64,
-        "matched_skills": [],
-        "missing_skills": [],
-        "matched_interests": [
-          "Software Development",
-          "Technology Research"
-        ],
-        "eligibility_notes": "Undergraduate CS student; verify specific company graduation criteria.",
-        "match_explanation": "Aligns with your interest in Software Development, Technology Research; Suitable for early undergrads (1st/2nd year / 3rd semester)."
-      },
-      {
-        "id": "d24267df48ca558e",
-        "title": "Game Research & Development Intern - Engine Research",
-        "company": "Tencent",
-        "url": "https://tencent.wd1.myworkdayjobs.com/Tencent_Careers/job/US-Washington-Bellevue/Game-Research---Development-Intern--Engine-Research_R107363-1",
-        "location": "Bellevue, WA",
-        "description": "Game Research & Development Intern - Engine Research at Tencent. Category: Software. Terms: Summer 2026. Degrees: . Location: Bellevue, WA",
-        "stipend": "Research Fellowship / Academic Grant",
-        "is_paid": false,
-        "is_research": true,
-        "source": "SimplifyJobs (Verified Employer)",
-        "terms": "Summer 2026",
-        "degrees": "",
-        "deadline": "Target: Summer 2026 (Rolling)",
-        "date_posted": 1776982049,
         "match_score": 64,
         "matched_skills": [],
         "missing_skills": [],
